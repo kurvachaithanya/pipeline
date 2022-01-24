@@ -10,6 +10,9 @@ pipeline{
         stage("buid the code"){
             steps{
                 println("here building the code using maven tool")
+                sh "mvn clean package"
+                sh "ls -l"
+                sh "ls -l target/"
             }
         }
         stage("upload the artifacts"){
