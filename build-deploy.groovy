@@ -1,6 +1,9 @@
 // declarative pipeline
 pipeline{
     agent any
+    parameters {
+        string(name: 'BUILD_NUMBER', defaultValue: '', description: 'build number')
+    }
     stages{
         stage("clone the code from git hub"){
             steps{
@@ -18,6 +21,8 @@ pipeline{
         stage("upload the artifacts"){
             steps{
                 println("here uploading the artifacts to s3")
+                sh "echo "$BUILD_NUMBER""
+                sh "aws s3 cp target/hello-${BUILD_NUMBER}.war s3://chaitudevop/master/${BUILD_NUMBER}"
             }
         }
         stage("download artifacts"){
