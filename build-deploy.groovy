@@ -23,7 +23,7 @@ pipeline{
         stage("upload the artifacts"){
             steps{
                 println("here uploading the artifacts to s3")
-                sh "aws s3 cp target/hello-${BUILD_NUMBER}.war s3://chaituart/${BRANCH_NAME}/${BUILD_NUMBER}"
+                sh "aws s3 cp target/hello-${BUILD_NUMBER}.war s3://chaituart/${BRANCH_NAME}/${BUILD_NUMBER}/hello-${BUILD_NUMBER}.war"
             }
         }
         stage("download artifacts"){
