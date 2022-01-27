@@ -40,7 +40,7 @@ pipeline{
             steps{
                 println("coping artifacts to other server")
                 sh """
-                scp -o StrictHostKeyChecking=no -i /tmp/sep15.pem hello-${BULID_NUMBER}.war ec2-user@${SERVERIP}:/tmp
+                scp -o StrictHostKeyChecking=no -i /tmp/sep15.pem hello-${BUILD_NUMBER}.war ec2-user@${SERVERIP}:/tmp
                 ssh -o StrictHostKeyChecking=no -i /tmp/sep15.pem ec2-user@${SERVERIP} \"sudo cp /tmp/hello-${BUILD_NUMBER}.war /var/lib/tomcat/webapps\"
                 """
             }
