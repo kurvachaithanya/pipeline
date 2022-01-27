@@ -2,7 +2,9 @@
 pipeline{
     agent any
     parameters {
+        string(name: 'BRANCH_NAME', defaultValue: '', description: 'BRANCH')
         string(name: 'BUILD_NUMBER', defaultValue: '', description: 'build number')
+        string(name: 'SERVERIP', defaultValue: '', description: 'SERVER1')
     }
     stages{
         stage("clone the code from git hub"){
@@ -21,12 +23,17 @@ pipeline{
         stage("upload the artifacts"){
             steps{
                 println("here uploading the artifacts to s3")
-                sh "aws s3 cp target/hello-${BUILD_NUMBER}.war s3://chaituart/master/${BUILD_NUMBER}"
+                sh "aws s3 cp target/hello-${BUILD_NUMBER}.war s3://chaituart/${BRANCH_NAME}/${BUILD_NUMBER}"
             }
         }
         stage("download artifacts"){
             steps{
                 println("downloading artifacts from s3")
+                sh """
+                aws s3 ls
+                aws s3 ls s3://chaituart
+                aws s3 cp s3://chaituart/${BRANCH_NAME}/${BUILD_NUMBER}/hello-${BUILD_NUMBER}.war .
+                """
             }
         }
         stage("copy to other servers"){
